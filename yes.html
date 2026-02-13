@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Our Memories ❤️</title>
+
+<style>
+/* ================= GENERAL ================= */
+body{
+  margin:0;
+  font-family:"Comic Sans MS", cursive;
+  overflow:hidden;
+}
+
+/* ================= GAME PAGE ================= */
+
+#gamePage{
+  height:100vh;
+  background:linear-gradient(135deg,#ff4d6d,#ff9a9e,#ffd1ff);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
+}
+
+#score{
+  font-size:22px;
+  margin:10px;
+}
+
+#gameArea{
+  position:relative;
+  width:100vw;
+  height:70vh;
+  overflow:hidden;
+}
+
+/* basket */
+#basket{
+  position:absolute;
+  bottom:20px;
+  font-size:60px;
+  left:50%;
+  transform:translateX(-50%);
+  pointer-events:none;
+}
+
+/* falling hearts */
+.heart{
+  position:absolute;
+  top:-40px;
+  font-size:32px;
+}
+
+/* ================= GALLERY PAGE ================= */
+
+#galleryPage{
+  display:none;
+  background:#f6efe6;
+  overflow-y:auto;
+  height:100vh;
+}
+
+/* heading */
+.title{
+  text-align:center;
+  padding:40px 20px 10px;
+  font-size:40px;
+  color:#c44569;
+}
+
+/* collage wrapper */
+.collage{
+  position:relative;
+  width:1200px;
+  max-width:95%;
+  margin:auto;
+  min-height:1800px;
+}
+
+/* photo style */
+.photo{
+  position:absolute;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  transform:rotate(var(--r));
+  transition:0.3s;
+  background:white;
+  padding:6px;
+}
+
+.photo:hover{
+  transform:scale(1.05) rotate(0deg);
+  z-index:10;
+}
+
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+/* floating hearts background */
+.bgHeart{
+  position:fixed;
+  bottom:-40px;
+  font-size:22px;
+  opacity:0.6;
+  animation: float 8s linear infinite;
+  z-index:-1;
+}
+/* NEXT LEVEL BUTTON */
+.nextBtn{
+  display:block;
+  margin:80px auto;
+  padding:16px 40px;
+  font-size:20px;
+  border:none;
+  border-radius:30px;
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+
+.nextBtn:hover{
+  transform:scale(1.1);
+}
+
+@keyframes float{
+  to{
+    transform:translateY(-110vh);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEART CATCH GAME ================= -->
+
+<div id="gamePage">
+  <h1>Catch 10 Hearts to Unlock Our Memories ❤️</h1>
+  <div id="score">Hearts: 0 / 10</div>
+
+  <div id="gameArea">
+    <div id="basket">🧺</div>
+  </div>
+</div>
+
+
+<!-- ================= GALLERY ================= -->
+
+<div id="galleryPage">
+
+  <div class="title">Our Love Story 💕</div>
+
+  <div class="collage">
+
+    <div class="photo" style="--r:-4deg; top:20px; left:60px; width:420px; height:520px;">
+      <img src="image/image1.jpeg">
+    </div>
+
+    <div class="photo" style="--r:5deg; top:50px; right:80px; width:300px; height:420px;">
+      <img src="image/image2.jpeg">
+    </div>
+
+    <div class="photo" style="--r:-3deg; top:600px; left:100px; width:280px; height:320px;">
+      <img src="image/image3.jpeg">
+    </div>
+
+    <div class="photo" style="--r:6deg; top:550px; left:430px; width:360px; height:420px;">
+      <img src="image/image4.jpeg">
+    </div>
+
+    <div class="photo" style="--r:-5deg; top:1050px; left:50px; width:320px; height:380px;">
+      <img src="image/image5.jpeg">
+    </div>
+
+    <div class="photo" style="--r:4deg; top:1030px; right:100px; width:260px; height:320px;">
+      <img src="image/image6.jpeg">
+    </div>
+
+    <div class="photo" style="--r:-6deg; top:1500px; left:320px; width:420px; height:500px;">
+      <img src="image/image7.jpeg">
+    </div>
+
+    <div class="photo" style="--r:3deg; top:1500px; right:70px; width:280px; height:360px;">
+      <img src="image/image8.jpeg">
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+/* ================= HEART CATCH GAME ================= */
+
+const basket = document.getElementById("basket");
+const gameArea = document.getElementById("gameArea");
+const scoreText = document.getElementById("score");
+
+const gamePage = document.getElementById("gamePage");
+const galleryPage = document.getElementById("galleryPage");
+
+let score = 0;
+
+/* move basket */
+document.addEventListener("mousemove",(e)=>{
+  basket.style.left = (e.clientX-30) + "px";
+});
+
+/* create falling hearts */
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤️";
+
+  heart.style.left=Math.random()*window.innerWidth+"px";
+  gameArea.appendChild(heart);
+
+  let pos=0;
+
+  const fall=setInterval(()=>{
+    pos+=4;
+    heart.style.top=pos+"px";
+
+    const h=heart.getBoundingClientRect();
+    const b=basket.getBoundingClientRect();
+
+    if(h.bottom>b.top && h.left<b.right && h.right>b.left){
+      score++;
+      scoreText.innerText=`Hearts: ${score} / 10`;
+      heart.remove();
+      clearInterval(fall);
+
+      if(score>=10) showGallery();
+    }
+
+    if(pos>window.innerHeight){
+      heart.remove();
+      clearInterval(fall);
+    }
+
+  },20);
+}
+
+const gameInterval=setInterval(createHeart,800);
+
+
+/* ================= SHOW GALLERY ================= */
+
+function showGallery(){
+  clearInterval(gameInterval);
+
+  gamePage.style.display="none";
+  galleryPage.style.display="block";
+  document.body.style.overflowY="auto";
+
+  /* floating hearts background */
+  setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="bgHeart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    galleryPage.appendChild(h);
+    setTimeout(()=>h.remove(),8000);
+  },400);
+}
+</script>
+<button class="nextBtn" onclick="location.href='notes.html'">
+  Next Level ➜ 💌
+</button>
+
+
+
+</body>
+</html>

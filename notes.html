@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>💌 Scratch Balloon Love Game</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  font-family:"Comic Sans MS", cursive;
+  background:linear-gradient(135deg,#ff9a9e,#fecfef);
+  text-align:center;
+  overflow:hidden;
+}
+
+.float{
+  position:fixed;
+  bottom:-60px;
+  animation:rise linear forwards;
+  z-index:-1;
+}
+
+@keyframes rise{
+  to{transform:translateY(-120vh);opacity:0;}
+}
+
+#card{
+  position:relative;
+  width:260px;
+  height:300px;
+  border-radius:25px;
+  overflow:hidden;
+  background:white;
+  box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  margin-top:30px;
+}
+
+#note{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  font-size:20px;
+}
+
+canvas{ position:absolute; inset:0; }
+
+#counter{
+  color:white;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Scratch the Balloon 🎈</h1>
+<div id="counter">1 / 6</div>
+
+<div id="card">
+  <div id="note"></div>
+  <canvas id="scratch"></canvas>
+</div>
+
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const notes=[
+"You are my favorite person ❤️",
+"My heart feels safe with you 🥰",
+"Every moment with you is magic ✨",
+"You are my sunshine ☀️",
+"I love you more each day 💕",
+"Forever with you 💖"
+];
+
+let index=0;
+
+const noteDiv=document.getElementById("note");
+const canvas=document.getElementById("scratch");
+const ctx=canvas.getContext("2d");
+const counter=document.getElementById("counter");
+
+canvas.width=260;
+canvas.height=300;
+
+function loadBalloon(){
+  noteDiv.innerText=notes[index];
+
+  ctx.globalCompositeOperation="source-over";
+  ctx.fillStyle="#ff4d6d";
+  ctx.fillRect(0,0,260,300);
+
+  ctx.font="120px serif";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  ctx.fillText("🎈",130,150);
+
+  ctx.globalCompositeOperation="destination-out";
+
+  counter.innerText=(index+1)+" / "+notes.length;
+}
+
+loadBalloon();
+
+let drawing=false;
+
+function scratch(e){
+  if(!drawing) return;
+  const rect=canvas.getBoundingClientRect();
+  const x=(e.clientX || e.touches[0].clientX)-rect.left;
+  const y=(e.clientY || e.touches[0].clientY)-rect.top;
+  ctx.beginPath();
+  ctx.arc(x,y,18,0,Math.PI*2);
+  ctx.fill();
+}
+
+canvas.onmousedown=()=>drawing=true;
+canvas.onmouseup=()=>{drawing=false;check();};
+canvas.onmousemove=scratch;
+
+canvas.ontouchstart=()=>drawing=true;
+canvas.ontouchend=()=>{drawing=false;check();};
+canvas.ontouchmove=scratch;
+
+function check(){
+  const pixels=ctx.getImageData(0,0,260,300).data;
+  let cleared=0;
+
+  for(let i=3;i<pixels.length;i+=4){
+    if(pixels[i]===0) cleared++;
+  }
+
+  if(cleared>pixels.length/5){
+    index++;
+
+    if(index>=notes.length){
+      setTimeout(()=>{
+        window.location.href="final.html";
+      },1000);
+    }else{
+      loadBalloon();
+    }
+  }
+}
+
+/* floating background */
+function floatItem(){
+  const items=["❤️","💖","💗","🎈"];
+  const el=document.createElement("div");
+  el.className="float";
+  el.innerHTML=items[Math.floor(Math.random()*items.length)];
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=(20+Math.random()*30)+"px";
+  el.style.animationDuration=(6+Math.random()*6)+"s";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),12000);
+}
+setInterval(floatItem,400);
+</script>
+
+</body>
+</html>

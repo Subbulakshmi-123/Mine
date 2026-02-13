@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>❤️ My Final Surprise</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  font-family:"Comic Sans MS", cursive;
+  background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
+  text-align:center;
+  color:white;
+  overflow:hidden;
+}
+
+h1{
+  font-size:50px;
+  margin-bottom:10px;
+}
+
+p{
+  font-size:24px;
+  max-width:520px;
+}
+
+/* call button */
+.callBtn{
+  margin-top:35px;
+  padding:16px 40px;
+  font-size:20px;
+  border:none;
+  border-radius:35px;
+  background:white;
+  color:#ff4d6d;
+  cursor:pointer;
+  text-decoration:none;
+  font-weight:bold;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  transition:0.3s;
+}
+
+.callBtn:hover{
+  transform:scale(1.1);
+}
+
+/* floating hearts */
+.float{
+  position:fixed;
+  bottom:-50px;
+  animation:rise linear forwards;
+  z-index:-1;
+}
+
+@keyframes rise{
+  to{
+    transform:translateY(-120vh);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h1>I Love You ❤️</h1>
+
+<p>
+You completed every level…  
+Now there’s only one thing left…  
+Call me and say “I love you” 💕
+</p>
+
+<!-- 📞 CALL BUTTON -->
+
+<a href="tel:+916381349329" class="callBtn">
+   Click Me ❤️
+</a>
+
+
+<script>
+/* floating hearts animation */
+function floatHeart(){
+  const el=document.createElement("div");
+  el.className="float";
+  el.innerHTML="❤️";
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=(20+Math.random()*40)+"px";
+  el.style.animationDuration=(6+Math.random()*6)+"s";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),12000);
+}
+
+setInterval(floatHeart,400);
+</script>
+
+</body>
+</html>
