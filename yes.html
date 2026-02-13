@@ -3,25 +3,31 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Memories ❤️</title>
+<title>Our Memories 💜</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{ box-sizing:border-box; }
 
 /* ================= GENERAL ================= */
 body{
   margin:0;
   font-family:"Comic Sans MS", cursive;
   overflow:hidden;
+  background: linear-gradient(135deg,#7f00ff,#e100ff,#ff4fd8,#ff9ff3);
+  background-size:400% 400%;
+  animation:bgMove 10s infinite alternate;
+}
+
+/* Background Animation */
+@keyframes bgMove{
+  0%{background-position:0% 50%;}
+  100%{background-position:100% 50%;}
 }
 
 /* ================= GAME PAGE ================= */
 
 #gamePage{
   height:100vh;
-  background:linear-gradient(135deg,#ff4d6d,#ff9a9e,#ffd1ff);
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -33,6 +39,7 @@ body{
 
 #gamePage h1{
   font-size:clamp(20px,4vw,32px);
+  text-shadow:0 0 10px #ff9ff3;
 }
 
 #score{
@@ -47,11 +54,11 @@ body{
   overflow:hidden;
 }
 
-/* ✅ BIGGER BASKET */
+/* Basket */
 #basket{
   position:absolute;
   bottom:10px;
-  font-size:90px; /* increased */
+  font-size:90px;
   left:50%;
   transform:translateX(-50%);
   pointer-events:none;
@@ -68,7 +75,9 @@ body{
 
 #galleryPage{
   display:none;
-  background:#f6efe6;
+  background: linear-gradient(135deg,#7f00ff,#e100ff,#ff4fd8,#ff9ff3);
+  background-size:400% 400%;
+  animation:bgMove 10s infinite alternate;
   overflow-y:auto;
   height:100vh;
 }
@@ -78,7 +87,8 @@ body{
   text-align:center;
   padding:30px 15px 10px;
   font-size:clamp(24px,4vw,40px);
-  color:#c44569;
+  color:white;
+  text-shadow:0 0 15px #ff9ff3;
 }
 
 /* collage wrapper */
@@ -95,7 +105,7 @@ body{
   position:absolute;
   border-radius:18px;
   overflow:hidden;
-  box-shadow:0 12px 30px rgba(0,0,0,0.25);
+  box-shadow:0 12px 30px rgba(0,0,0,0.4);
   transform:rotate(var(--r));
   transition:0.3s;
   background:white;
@@ -114,7 +124,7 @@ body{
   border-radius:12px;
 }
 
-/* floating hearts background */
+/* floating hearts */
 .bgHeart{
   position:fixed;
   bottom:-40px;
@@ -128,43 +138,38 @@ body{
 .nextBtn{
   display:block;
   margin:40px auto;
-  padding:14px 35px;
-  font-size:18px;
+  padding:16px 40px;
+  font-size:20px;
   border:none;
   border-radius:30px;
-  background:#ff4d6d;
+  background: linear-gradient(45deg,#ff4fd8,#7f00ff);
   color:white;
   cursor:pointer;
-  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+  box-shadow:0 6px 20px #ff4fd8;
 }
 
 .nextBtn:hover{
   transform:scale(1.1);
 }
 
+/* Floating animation */
 @keyframes float{
-  to{
-    transform:translateY(-110vh);
-  }
+  to{ transform:translateY(-110vh); }
 }
 
 /* ================= MOBILE RESPONSIVE ================= */
 @media (max-width: 768px){
 
-  #basket{
-    font-size:110px;
-  }
+  #basket{ font-size:110px; }
 
-  /* Make collage grid clean */
   .collage{
     min-height:auto;
     display:grid;
-    grid-template-columns:1fr 1fr; /* 2 photos per row */
+    grid-template-columns:1fr 1fr;
     gap:20px;
     padding:10px;
   }
 
-  /* Remove absolute positioning on mobile */
   .photo{
     position:relative !important;
     width:100% !important;
@@ -173,52 +178,30 @@ body{
     padding:6px;
   }
 
-  /* Increase image size */
   .photo img{
     width:100%;
-    height:300px;   /* BIGGER PHOTO */
-    object-fit:cover;
-    border-radius:12px;
+    height:300px;
   }
 }
 
-/* Small mobile phones */
 @media (max-width: 480px){
 
   .collage{
-    grid-template-columns:1fr; /* 1 photo per row */
+    grid-template-columns:1fr;
   }
 
   .photo img{
-    height:380px;   /* VERY BIG PHOTO */
+    height:380px;
   }
 }
-/* NEXT LEVEL BUTTON */
- .nextBtn{ display:block; margin:80px auto; 
-  padding:16px 40px; 
-  font-size:20px; border:none; 
-  border-radius:30px; 
-  background:#ff4d6d;
-  color:white; cursor:pointer; 
-  box-shadow:0 6px 15px rgba(0,0,0,0.2); } 
-  .nextBtn:hover{ transform:scale(1.1);
-   }
-    @keyframes float{ 
-      to{ 
-        transform:translateY(-110vh);
-       } 
-      }
-
-
 </style>
 </head>
 
 <body>
 
-<!-- ================= HEART CATCH GAME ================= -->
-
+<!-- ================= GAME PAGE ================= -->
 <div id="gamePage">
-  <h1>Catch 10 Hearts to Unlock Our Memories ❤️</h1>
+  <h1>Catch 10 Hearts to Unlock Our Memories 💜</h1>
   <div id="score">Hearts: 0 / 10</div>
 
   <div id="gameArea">
@@ -227,8 +210,7 @@ body{
 </div>
 
 
-<!-- ================= GALLERY ================= -->
-
+<!-- ================= GALLERY PAGE ================= -->
 <div id="galleryPage">
   <div class="title">Our Love Story 💕</div>
 
@@ -271,13 +253,11 @@ body{
   <button class="nextBtn" onclick="location.href='notes.html'">
     Next Level ➜ 💌
   </button>
-
 </div>
 
 
 <script>
-/* ================= HEART CATCH GAME ================= */
-
+/* ================= HEART GAME ================= */
 const basket = document.getElementById("basket");
 const gameArea = document.getElementById("gameArea");
 const scoreText = document.getElementById("score");
@@ -286,27 +266,24 @@ const galleryPage = document.getElementById("galleryPage");
 
 let score = 0;
 
-/* Move basket (Laptop) */
+/* Basket move */
 document.addEventListener("mousemove",(e)=>{
   basket.style.left = (e.clientX - basket.offsetWidth/2) + "px";
 });
 
-/* Move basket (Mobile Touch) */
 document.addEventListener("touchmove",(e)=>{
   basket.style.left = (e.touches[0].clientX - basket.offsetWidth/2) + "px";
 });
 
-/* Create falling hearts */
+/* Falling hearts */
 function createHeart(){
   const heart=document.createElement("div");
   heart.className="heart";
-  heart.innerHTML="❤️";
-
+  heart.innerHTML="💜";
   heart.style.left=Math.random()*window.innerWidth+"px";
   gameArea.appendChild(heart);
 
   let pos=0;
-
   const fall=setInterval(()=>{
     pos+=5;
     heart.style.top=pos+"px";
@@ -327,34 +304,28 @@ function createHeart(){
       heart.remove();
       clearInterval(fall);
     }
-
   },20);
 }
 
 const gameInterval=setInterval(createHeart,700);
 
-
-/* ================= SHOW GALLERY ================= */
-
+/* Show Gallery */
 function showGallery(){
   clearInterval(gameInterval);
   gamePage.style.display="none";
   galleryPage.style.display="block";
   document.body.style.overflowY="auto";
 
-  /* floating hearts background */
   setInterval(()=>{
     const h=document.createElement("div");
     h.className="bgHeart";
-    h.innerHTML="💖";
+    h.innerHTML="💜";
     h.style.left=Math.random()*100+"vw";
     galleryPage.appendChild(h);
     setTimeout(()=>h.remove(),8000);
   },400);
 }
 </script>
-<button class="nextBtn" onclick="location.href='notes.html'"> Next Level ➜ 💌 </button>  
 
 </body>
 </html>
- 
