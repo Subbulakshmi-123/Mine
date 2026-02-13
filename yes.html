@@ -12,7 +12,6 @@
 body{
   margin:0;
   font-family:"Comic Sans MS", cursive;
-  overflow:hidden;
   background: linear-gradient(135deg,#7f00ff,#e100ff,#ff4fd8,#ff9ff3);
   background-size:400% 400%;
   animation:bgMove 10s infinite alternate;
@@ -75,30 +74,28 @@ body{
 
 #galleryPage{
   display:none;
-  background: linear-gradient(135deg,#7f00ff,#e100ff,#ff4fd8,#ff9ff3);
-  background-size:400% 400%;
-  animation:bgMove 10s infinite alternate;
+  min-height:100vh;
   overflow-y:auto;
-  height:100vh;
-  position:relative; /* for bg hearts */
+  color:white;
+  position:relative;
+  padding-bottom:100px;
 }
 
 /* heading */
 .title{
   text-align:center;
-  padding:30px 15px 10px;
-  font-size:clamp(24px,4vw,40px);
-  color:white;
+  padding:20px;
+  font-size:28px;
   text-shadow:0 0 15px #ff9ff3;
 }
 
 /* collage wrapper */
 .collage{
-  position:relative;
-  width:1200px;
-  max-width:95%;
+  width:100%;
+  max-width:1100px;
   margin:auto;
-  min-height:1800px;
+  position:relative;
+  min-height:1700px;
 }
 
 /* photo style */
@@ -108,14 +105,8 @@ body{
   overflow:hidden;
   box-shadow:0 12px 30px rgba(0,0,0,0.4);
   transform:rotate(var(--r));
-  transition:0.3s;
   background:white;
   padding:6px;
-}
-
-.photo:hover{
-  transform:scale(1.05) rotate(0deg);
-  z-index:10;
 }
 
 .photo img{
@@ -132,14 +123,14 @@ body{
   font-size:22px;
   opacity:0.6;
   animation: float 8s linear infinite;
-  z-index:-1;
+  z-index:0;
 }
 
-/* NEXT BUTTON — now inside gallery page, below collage */
+/* NEXT BUTTON */
 .nextBtn{
   display:block;
-  margin:40px auto 60px auto;  /* top & bottom spacing */
-  padding:16px 40px;
+  margin:30px auto;
+  padding:15px 40px;
   font-size:20px;
   border:none;
   border-radius:30px;
@@ -147,13 +138,8 @@ body{
   color:white;
   cursor:pointer;
   box-shadow:0 6px 20px #ff4fd8;
-  transition: transform 0.2s;
-  z-index:5; /* above bg hearts */
   position:relative;
-}
-
-.nextBtn:hover{
-  transform:scale(1.1);
+  z-index:5;
 }
 
 /* Floating animation */
@@ -170,7 +156,7 @@ body{
     min-height:auto;
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:20px;
+    gap:15px;
     padding:10px;
   }
 
@@ -178,18 +164,12 @@ body{
     position:relative !important;
     width:100% !important;
     height:auto !important;
-    transform:rotate(0deg) !important;
-    padding:6px;
+    transform:none !important;
   }
 
   .photo img{
     width:100%;
-    height:300px;
-  }
-
-  /* button still visible */
-  .nextBtn{
-    margin:30px auto 50px;
+    height:250px;
   }
 }
 
@@ -200,7 +180,7 @@ body{
   }
 
   .photo img{
-    height:380px;
+    height:320px;
   }
 }
 </style>
@@ -208,7 +188,7 @@ body{
 
 <body>
 
-<!-- ================= GAME PAGE ================= -->
+<!-- GAME PAGE -->
 <div id="gamePage">
   <h1>Catch 10 Hearts to Unlock Our Memories 💜</h1>
   <div id="score">Hearts: 0 / 10</div>
@@ -218,48 +198,38 @@ body{
   </div>
 </div>
 
-
-<!-- ================= GALLERY PAGE ================= -->
+<!-- GALLERY PAGE -->
 <div id="galleryPage">
   <div class="title">Our Love Story 💕</div>
 
   <div class="collage">
 
     <div class="photo" style="--r:-4deg; top:20px; left:60px; width:420px; height:520px;">
-      <img src="image1.jpeg" alt="memory 1">
+      <img src="image1.jpeg">
     </div>
 
     <div class="photo" style="--r:5deg; top:50px; right:80px; width:300px; height:420px;">
-      <img src="image2.jpeg" alt="memory 2">
+      <img src="image2.jpeg">
     </div>
 
     <div class="photo" style="--r:-3deg; top:600px; left:100px; width:280px; height:320px;">
-      <img src="image3.jpeg" alt="memory 3">
+      <img src="image3.jpeg">
     </div>
 
     <div class="photo" style="--r:6deg; top:550px; left:430px; width:360px; height:420px;">
-      <img src="image4.jpeg" alt="memory 4">
+      <img src="image4.jpeg">
     </div>
 
     <div class="photo" style="--r:-5deg; top:1050px; left:50px; width:320px; height:380px;">
-      <img src="image5.jpeg" alt="memory 5">
+      <img src="image5.jpeg">
     </div>
 
     <div class="photo" style="--r:4deg; top:1030px; right:100px; width:260px; height:320px;">
-      <img src="image6.jpeg" alt="memory 6">
-    </div>
-
-    <div class="photo" style="--r:-6deg; top:1500px; left:320px; width:420px; height:500px;">
-      <img src="image7.jpeg" alt="memory 7">
-    </div>
-
-    <div class="photo" style="--r:3deg; top:1500px; right:70px; width:280px; height:360px;">
-      <img src="image8.jpeg" alt="memory 8">
+      <img src="image6.jpeg">
     </div>
 
   </div>
 
-  <!-- NEXT BUTTON placed right after the .collage, still inside galleryPage -->
   <button class="nextBtn" onclick="location.href='notes.html'">
     Next Level ➜ 💌
   </button>
@@ -267,7 +237,6 @@ body{
 
 
 <script>
-/* ================= HEART GAME ================= */
 const basket = document.getElementById("basket");
 const gameArea = document.getElementById("gameArea");
 const scoreText = document.getElementById("score");
@@ -275,36 +244,20 @@ const gamePage = document.getElementById("gamePage");
 const galleryPage = document.getElementById("galleryPage");
 
 let score = 0;
-let gameInterval; // store interval so we can clear properly
 
 /* Basket move */
 document.addEventListener("mousemove",(e)=>{
-  // boundary check to keep basket inside view
-  let basketWidth = basket.offsetWidth;
-  let newLeft = e.clientX - basketWidth/2;
-  // clamp to edges
-  newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - basketWidth));
-  basket.style.left = newLeft + "px";
+  basket.style.left = e.clientX - basket.offsetWidth/2 + "px";
 });
-
-document.addEventListener("touchmove",(e)=>{
-  e.preventDefault();
-  let touchX = e.touches[0].clientX;
-  let basketWidth = basket.offsetWidth;
-  let newLeft = touchX - basketWidth/2;
-  newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - basketWidth));
-  basket.style.left = newLeft + "px";
-}, {passive: false});
 
 /* Falling hearts */
 function createHeart(){
-  // if gallery already shown, stop creating hearts (just in case)
-  if (gamePage.style.display === "none") return;
+  if(gamePage.style.display==="none") return;
 
   const heart=document.createElement("div");
   heart.className="heart";
   heart.innerHTML="💜";
-  heart.style.left=Math.random()*(window.innerWidth-30)+"px"; // avoid edge overflow
+  heart.style.left=Math.random()*window.innerWidth+"px";
   gameArea.appendChild(heart);
 
   let pos=0;
@@ -315,7 +268,7 @@ function createHeart(){
     const h=heart.getBoundingClientRect();
     const b=basket.getBoundingClientRect();
 
-    if(h.bottom > b.top && h.left < b.right && h.right > b.left){
+    if(h.bottom>b.top && h.left<b.right && h.right>b.left){
       score++;
       scoreText.innerText=`Hearts: ${score} / 10`;
       heart.remove();
@@ -324,41 +277,31 @@ function createHeart(){
       if(score>=10) showGallery();
     }
 
-    if(pos > window.innerHeight + 50){
-      if(heart.parentNode) heart.remove();
+    if(pos>window.innerHeight){
+      heart.remove();
       clearInterval(fall);
     }
   },20);
 }
 
-// Start the game loop
-gameInterval = setInterval(createHeart, 700);
+const gameInterval=setInterval(createHeart,700);
 
 /* Show Gallery */
 function showGallery(){
-  clearInterval(gameInterval);       // stop more hearts
-  // remove any existing falling hearts
-  document.querySelectorAll('.heart').forEach(h => h.remove());
+  clearInterval(gameInterval);
+  gamePage.style.display="none";
+  galleryPage.style.display="block";
+  document.body.style.overflowY="auto";
 
-  gamePage.style.display = "none";
-  galleryPage.style.display = "block";
-  document.body.style.overflowY = "auto";
-
-  // start floating background hearts (optional)
   setInterval(()=>{
-    if (galleryPage.style.display !== "block") return; // only if gallery visible
     const h=document.createElement("div");
     h.className="bgHeart";
     h.innerHTML="💜";
     h.style.left=Math.random()*100+"vw";
-    h.style.animationDuration = (6 + Math.random()*6) + "s"; // varied speed
     galleryPage.appendChild(h);
     setTimeout(()=>h.remove(),8000);
   },400);
 }
-
-// Additional: if user accidentally navigates back, we may want to reset?
-// But keep simple: game restarts only on page reload.
 </script>
 
 </body>
