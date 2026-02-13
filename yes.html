@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Memories ❤️</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 /* ================= GENERAL ================= */
 body{
   margin:0;
@@ -23,25 +28,30 @@ body{
   align-items:center;
   color:white;
   text-align:center;
+  padding:10px;
+}
+
+#gamePage h1{
+  font-size:clamp(20px,4vw,32px);
 }
 
 #score{
-  font-size:22px;
+  font-size:20px;
   margin:10px;
 }
 
 #gameArea{
   position:relative;
-  width:100vw;
+  width:100%;
   height:70vh;
   overflow:hidden;
 }
 
-/* basket */
+/* ✅ BIGGER BASKET */
 #basket{
   position:absolute;
-  bottom:20px;
-  font-size:60px;
+  bottom:10px;
+  font-size:90px; /* increased */
   left:50%;
   transform:translateX(-50%);
   pointer-events:none;
@@ -51,7 +61,7 @@ body{
 .heart{
   position:absolute;
   top:-40px;
-  font-size:32px;
+  font-size:30px;
 }
 
 /* ================= GALLERY PAGE ================= */
@@ -66,8 +76,8 @@ body{
 /* heading */
 .title{
   text-align:center;
-  padding:40px 20px 10px;
-  font-size:40px;
+  padding:30px 15px 10px;
+  font-size:clamp(24px,4vw,40px);
   color:#c44569;
 }
 
@@ -113,12 +123,13 @@ body{
   animation: float 8s linear infinite;
   z-index:-1;
 }
-/* NEXT LEVEL BUTTON */
+
+/* NEXT BUTTON */
 .nextBtn{
   display:block;
-  margin:80px auto;
-  padding:16px 40px;
-  font-size:20px;
+  margin:40px auto;
+  padding:14px 35px;
+  font-size:18px;
   border:none;
   border-radius:30px;
   background:#ff4d6d;
@@ -134,6 +145,42 @@ body{
 @keyframes float{
   to{
     transform:translateY(-110vh);
+  }
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px){
+
+  #basket{
+    font-size:110px; /* even bigger on mobile */
+  }
+
+  .collage{
+    min-height:auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+  }
+
+  .photo{
+    position:relative !important;
+    width:100% !important;
+    height:auto !important;
+    transform:rotate(0deg) !important;
+  }
+
+  .photo img{
+    height:220px;
+  }
+}
+
+@media (max-width: 480px){
+  .collage{
+    grid-template-columns:1fr;
+  }
+
+  .photo img{
+    height:200px;
   }
 }
 </style>
@@ -156,44 +203,48 @@ body{
 <!-- ================= GALLERY ================= -->
 
 <div id="galleryPage">
-
   <div class="title">Our Love Story 💕</div>
 
   <div class="collage">
 
     <div class="photo" style="--r:-4deg; top:20px; left:60px; width:420px; height:520px;">
-      <img src="image/image1.jpeg">
+      <img src="image1.jpeg">
     </div>
 
     <div class="photo" style="--r:5deg; top:50px; right:80px; width:300px; height:420px;">
-      <img src="image/image2.jpeg">
+      <img src="image2.jpeg">
     </div>
 
     <div class="photo" style="--r:-3deg; top:600px; left:100px; width:280px; height:320px;">
-      <img src="image/image3.jpeg">
+      <img src="image3.jpeg">
     </div>
 
     <div class="photo" style="--r:6deg; top:550px; left:430px; width:360px; height:420px;">
-      <img src="image/image4.jpeg">
+      <img src="image4.jpeg">
     </div>
 
     <div class="photo" style="--r:-5deg; top:1050px; left:50px; width:320px; height:380px;">
-      <img src="image/image5.jpeg">
+      <img src="image5.jpeg">
     </div>
 
     <div class="photo" style="--r:4deg; top:1030px; right:100px; width:260px; height:320px;">
-      <img src="image/image6.jpeg">
+      <img src="image6.jpeg">
     </div>
 
     <div class="photo" style="--r:-6deg; top:1500px; left:320px; width:420px; height:500px;">
-      <img src="image/image7.jpeg">
+      <img src="image7.jpeg">
     </div>
 
     <div class="photo" style="--r:3deg; top:1500px; right:70px; width:280px; height:360px;">
-      <img src="image/image8.jpeg">
+      <img src="image8.jpeg">
     </div>
 
   </div>
+
+  <button class="nextBtn" onclick="location.href='notes.html'">
+    Next Level ➜ 💌
+  </button>
+
 </div>
 
 
@@ -203,18 +254,22 @@ body{
 const basket = document.getElementById("basket");
 const gameArea = document.getElementById("gameArea");
 const scoreText = document.getElementById("score");
-
 const gamePage = document.getElementById("gamePage");
 const galleryPage = document.getElementById("galleryPage");
 
 let score = 0;
 
-/* move basket */
+/* Move basket (Laptop) */
 document.addEventListener("mousemove",(e)=>{
-  basket.style.left = (e.clientX-30) + "px";
+  basket.style.left = (e.clientX - basket.offsetWidth/2) + "px";
 });
 
-/* create falling hearts */
+/* Move basket (Mobile Touch) */
+document.addEventListener("touchmove",(e)=>{
+  basket.style.left = (e.touches[0].clientX - basket.offsetWidth/2) + "px";
+});
+
+/* Create falling hearts */
 function createHeart(){
   const heart=document.createElement("div");
   heart.className="heart";
@@ -226,7 +281,7 @@ function createHeart(){
   let pos=0;
 
   const fall=setInterval(()=>{
-    pos+=4;
+    pos+=5;
     heart.style.top=pos+"px";
 
     const h=heart.getBoundingClientRect();
@@ -249,14 +304,13 @@ function createHeart(){
   },20);
 }
 
-const gameInterval=setInterval(createHeart,800);
+const gameInterval=setInterval(createHeart,700);
 
 
 /* ================= SHOW GALLERY ================= */
 
 function showGallery(){
   clearInterval(gameInterval);
-
   gamePage.style.display="none";
   galleryPage.style.display="block";
   document.body.style.overflowY="auto";
@@ -272,11 +326,6 @@ function showGallery(){
   },400);
 }
 </script>
-<button class="nextBtn" onclick="location.href='notes.html'">
-  Next Level ➜ 💌
-</button>
-
-
 
 </body>
 </html>
