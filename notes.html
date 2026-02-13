@@ -15,7 +15,7 @@ body{
   justify-content:center;
   align-items:center;
   font-family:"Comic Sans MS", cursive;
-  background:linear-gradient(135deg,#ff9a9e,#ff6a88,#ff99cc);
+  background:linear-gradient(135deg,#7f00ff,#e100ff,#ff4fd8);
   text-align:center;
   padding:10px;
   overflow:hidden;
@@ -42,8 +42,8 @@ body{
   height:450px;
   border-radius:30px;
   backdrop-filter:blur(12px);
-  background:rgba(255,255,255,0.25);
-  border:2px solid rgba(255,255,255,0.4);
+  background:rgba(255,255,255,0.2);
+  border:2px solid rgba(255,255,255,0.5);
   box-shadow:0 15px 40px rgba(0,0,0,0.3);
   overflow:hidden;
   margin-top:20px;
@@ -57,8 +57,8 @@ body{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  font-size:22px;
-  color:#ff0033;
+  font-size:27px;
+  color:white;
   font-weight:bold;
   text-align:center;
   padding:20px;
@@ -99,7 +99,7 @@ canvas{
   padding:10px 25px;
   border:none;
   border-radius:25px;
-  background:#ff0033;
+  background:#b000ff;
   color:white;
   font-size:16px;
   cursor:pointer;
@@ -121,7 +121,6 @@ canvas{
 
 <button id="musicBtn" onclick="toggleMusic()">🔊 Music On / Off</button>
 
-<!-- Romantic Background Music -->
 <audio id="bgMusic" loop>
   <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_8d8a1c2f59.mp3" type="audio/mp3">
 </audio>
@@ -153,18 +152,18 @@ window.addEventListener("resize", resizeCanvas);
 
 /* Load Scratch Card */
 function loadCard(){
-  noteDiv.innerHTML = `<span>💖</span><br>${notes[index]}<br><span>💖</span>`;
+  noteDiv.innerHTML = `<span>💜</span><br>${notes[index]}<br><span>💜</span>`;
   noteDiv.style.opacity = 0;
   noteDiv.style.transform = "scale(0.8)";
 
   ctx.globalCompositeOperation = "source-over";
-  ctx.fillStyle = "#ff0033";
+  ctx.fillStyle = "#9b00ff";
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
   ctx.font = "150px serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("🎈", canvas.width/2, canvas.height/2);
+  ctx.fillText("💜", canvas.width/2, canvas.height/2);
 
   ctx.globalCompositeOperation = "destination-out";
 
@@ -212,9 +211,8 @@ function check(){
     setTimeout(()=>{
       index++;
 
-      /* ✅ IF ALL MESSAGES DONE → GO TO FINAL PAGE */
       if(index >= notes.length){
-        window.location.href = "final.html";   // CHANGE YOUR FINAL PAGE NAME HERE
+        window.location.href = "final.html"; 
       } 
       else {
         loadCard();
@@ -226,7 +224,7 @@ function check(){
 
 /* Floating Hearts */
 function floatItem(){
-  const hearts=["❤️","💖","💗","💕"];
+  const hearts=["💜","💖","💗","💕"];
   const el=document.createElement("div");
   el.className="float";
   el.innerHTML=hearts[Math.floor(Math.random()*hearts.length)];
