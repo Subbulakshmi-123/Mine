@@ -80,6 +80,7 @@ body{
   animation:bgMove 10s infinite alternate;
   overflow-y:auto;
   height:100vh;
+  position:relative; /* for bg hearts */
 }
 
 /* heading */
@@ -134,10 +135,10 @@ body{
   z-index:-1;
 }
 
-/* NEXT BUTTON */
+/* NEXT BUTTON — now inside gallery page, below collage */
 .nextBtn{
   display:block;
-  margin:40px auto;
+  margin:40px auto 60px auto;  /* top & bottom spacing */
   padding:16px 40px;
   font-size:20px;
   border:none;
@@ -146,6 +147,9 @@ body{
   color:white;
   cursor:pointer;
   box-shadow:0 6px 20px #ff4fd8;
+  transition: transform 0.2s;
+  z-index:5; /* above bg hearts */
+  position:relative;
 }
 
 .nextBtn:hover{
@@ -182,6 +186,11 @@ body{
     width:100%;
     height:300px;
   }
+
+  /* button still visible */
+  .nextBtn{
+    margin:30px auto 50px;
+  }
 }
 
 @media (max-width: 480px){
@@ -217,39 +226,40 @@ body{
   <div class="collage">
 
     <div class="photo" style="--r:-4deg; top:20px; left:60px; width:420px; height:520px;">
-      <img src="image1.jpeg">
+      <img src="image1.jpeg" alt="memory 1">
     </div>
 
     <div class="photo" style="--r:5deg; top:50px; right:80px; width:300px; height:420px;">
-      <img src="image2.jpeg">
+      <img src="image2.jpeg" alt="memory 2">
     </div>
 
     <div class="photo" style="--r:-3deg; top:600px; left:100px; width:280px; height:320px;">
-      <img src="image3.jpeg">
+      <img src="image3.jpeg" alt="memory 3">
     </div>
 
     <div class="photo" style="--r:6deg; top:550px; left:430px; width:360px; height:420px;">
-      <img src="image4.jpeg">
+      <img src="image4.jpeg" alt="memory 4">
     </div>
 
     <div class="photo" style="--r:-5deg; top:1050px; left:50px; width:320px; height:380px;">
-      <img src="image5.jpeg">
+      <img src="image5.jpeg" alt="memory 5">
     </div>
 
     <div class="photo" style="--r:4deg; top:1030px; right:100px; width:260px; height:320px;">
-      <img src="image6.jpeg">
+      <img src="image6.jpeg" alt="memory 6">
     </div>
 
     <div class="photo" style="--r:-6deg; top:1500px; left:320px; width:420px; height:500px;">
-      <img src="image7.jpeg">
+      <img src="image7.jpeg" alt="memory 7">
     </div>
 
     <div class="photo" style="--r:3deg; top:1500px; right:70px; width:280px; height:360px;">
-      <img src="image8.jpeg">
+      <img src="image8.jpeg" alt="memory 8">
     </div>
 
   </div>
 
+  <!-- NEXT BUTTON placed right after the .collage, still inside galleryPage -->
   <button class="nextBtn" onclick="location.href='notes.html'">
     Next Level ➜ 💌
   </button>
@@ -265,22 +275,36 @@ const gamePage = document.getElementById("gamePage");
 const galleryPage = document.getElementById("galleryPage");
 
 let score = 0;
+let gameInterval; // store interval so we can clear properly
 
 /* Basket move */
 document.addEventListener("mousemove",(e)=>{
-  basket.style.left = (e.clientX - basket.offsetWidth/2) + "px";
+  // boundary check to keep basket inside view
+  let basketWidth = basket.offsetWidth;
+  let newLeft = e.clientX - basketWidth/2;
+  // clamp to edges
+  newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - basketWidth));
+  basket.style.left = newLeft + "px";
 });
 
 document.addEventListener("touchmove",(e)=>{
-  basket.style.left = (e.touches[0].clientX - basket.offsetWidth/2) + "px";
-});
+  e.preventDefault();
+  let touchX = e.touches[0].clientX;
+  let basketWidth = basket.offsetWidth;
+  let newLeft = touchX - basketWidth/2;
+  newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - basketWidth));
+  basket.style.left = newLeft + "px";
+}, {passive: false});
 
 /* Falling hearts */
 function createHeart(){
+  // if gallery already shown, stop creating hearts (just in case)
+  if (gamePage.style.display === "none") return;
+
   const heart=document.createElement("div");
   heart.className="heart";
   heart.innerHTML="💜";
-  heart.style.left=Math.random()*window.innerWidth+"px";
+  heart.style.left=Math.random()*(window.innerWidth-30)+"px"; // avoid edge overflow
   gameArea.appendChild(heart);
 
   let pos=0;
@@ -291,7 +315,7 @@ function createHeart(){
     const h=heart.getBoundingClientRect();
     const b=basket.getBoundingClientRect();
 
-    if(h.bottom>b.top && h.left<b.right && h.right>b.left){
+    if(h.bottom > b.top && h.left < b.right && h.right > b.left){
       score++;
       scoreText.innerText=`Hearts: ${score} / 10`;
       heart.remove();
@@ -300,31 +324,41 @@ function createHeart(){
       if(score>=10) showGallery();
     }
 
-    if(pos>window.innerHeight){
-      heart.remove();
+    if(pos > window.innerHeight + 50){
+      if(heart.parentNode) heart.remove();
       clearInterval(fall);
     }
   },20);
 }
 
-const gameInterval=setInterval(createHeart,700);
+// Start the game loop
+gameInterval = setInterval(createHeart, 700);
 
 /* Show Gallery */
 function showGallery(){
-  clearInterval(gameInterval);
-  gamePage.style.display="none";
-  galleryPage.style.display="block";
-  document.body.style.overflowY="auto";
+  clearInterval(gameInterval);       // stop more hearts
+  // remove any existing falling hearts
+  document.querySelectorAll('.heart').forEach(h => h.remove());
 
+  gamePage.style.display = "none";
+  galleryPage.style.display = "block";
+  document.body.style.overflowY = "auto";
+
+  // start floating background hearts (optional)
   setInterval(()=>{
+    if (galleryPage.style.display !== "block") return; // only if gallery visible
     const h=document.createElement("div");
     h.className="bgHeart";
     h.innerHTML="💜";
     h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration = (6 + Math.random()*6) + "s"; // varied speed
     galleryPage.appendChild(h);
     setTimeout(()=>h.remove(),8000);
   },400);
 }
+
+// Additional: if user accidentally navigates back, we may want to reset?
+// But keep simple: game restarts only on page reload.
 </script>
 
 </body>
