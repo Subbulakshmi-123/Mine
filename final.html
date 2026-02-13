@@ -3,6 +3,9 @@
 <head>
 <title>❤️ My Final Surprise</title>
 
+<!-- ✅ VERY IMPORTANT FOR MOBILE -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
   margin:0;
@@ -20,13 +23,13 @@ body{
 }
 
 h1{
-  font-size:60px; /* BIGGER */
+  font-size:60px;
   margin-bottom:15px;
   text-shadow:0 0 20px #ff4fd8;
 }
 
 p{
-  font-size:28px; /* BIGGER */
+  font-size:28px;
   max-width:520px;
   text-shadow:0 0 10px rgba(0,0,0,0.4);
 }
@@ -34,8 +37,8 @@ p{
 /* CALL BUTTON */
 .callBtn{
   margin-top:40px;
-  padding:20px 55px; /* BIGGER BUTTON */
-  font-size:24px; /* BIGGER TEXT */
+  padding:20px 55px;
+  font-size:24px;
   border:none;
   border-radius:50px;
   background:white;
@@ -69,26 +72,24 @@ p{
   }
 }
 
-/* Mobile Responsive Design */
+/* 📱 MOBILE RESPONSIVE */
 @media (max-width: 600px) {
 
   h1{
-    font-size: 50px; /* VERY BIG LOVE TEXT */
+    font-size: 55px; 
   }
 
   p{
-    font-size: 26px; /* Bigger message text */
+    font-size: 28px;
     padding: 0 20px;
   }
 
   .callBtn{
-    font-size: 26px; /* Big button text */
-    padding: 22px 60px; /* BIG BUTTON SIZE */
+    font-size: 28px;
+    padding: 25px 65px;
     border-radius: 60px;
   }
 }
-
-
 </style>
 </head>
 
@@ -102,20 +103,18 @@ Now there’s only one thing left…
 Call me and say “I love you” 💕
 </p>
 
-<!-- 📞 CALL BUTTON -->
 <a href="tel:+916381349329" class="callBtn">
    Call Me 💜
 </a>
 
 <script>
-/* floating hearts animation */
 function floatHeart(){
   const hearts=["💜","💖","💕","💗"];
   const el=document.createElement("div");
   el.className="float";
   el.innerHTML=hearts[Math.floor(Math.random()*hearts.length)];
   el.style.left=Math.random()*100+"vw";
-  el.style.fontSize=(25+Math.random()*50)+"px"; /* bigger hearts */
+  el.style.fontSize=(25+Math.random()*50)+"px";
   el.style.animationDuration=(6+Math.random()*6)+"s";
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),12000);
