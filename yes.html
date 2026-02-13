@@ -193,6 +193,21 @@ body{
     height:380px;   /* VERY BIG PHOTO */
   }
 }
+/* NEXT LEVEL BUTTON */
+ .nextBtn{ display:block; margin:80px auto; 
+  padding:16px 40px; 
+  font-size:20px; border:none; 
+  border-radius:30px; 
+  background:#ff4d6d;
+  color:white; cursor:pointer; 
+  box-shadow:0 6px 15px rgba(0,0,0,0.2); } 
+  .nextBtn:hover{ transform:scale(1.1);
+   }
+    @keyframes float{ 
+      to{ 
+        transform:translateY(-110vh);
+       } 
+      }
 
 
 </style>
@@ -338,6 +353,7 @@ function showGallery(){
   },400);
 }
 </script>
+<button class="nextBtn" onclick="location.href='notes.html'"> Next Level ➜ 💌 </button>  
 
 </body>
 </html>
