@@ -18,38 +18,23 @@ body{
   background:linear-gradient(135deg,#7f00ff,#e100ff,#ff4fd8);
   text-align:center;
   padding:10px;
-  overflow:hidden;
   color:white;
 }
 
-/* Floating hearts */
-.float{
-  position:fixed;
-  bottom:-50px;
-  animation:floatUp 10s linear forwards;
-  opacity:0.7;
-  z-index:-1;
-}
-@keyframes floatUp{
-  to{transform:translateY(-120vh);opacity:0;}
-}
-
-/* Scratch Card */
+/* Card container */
 #card{
   position:relative;
   width:95%;
-  max-width:350px;
-  height:420px;
+  max-width:320px;
+  height:400px;
   border-radius:25px;
-  backdrop-filter:blur(10px);
   background:rgba(255,255,255,0.2);
-  border:2px solid rgba(255,255,255,0.4);
-  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  border:2px solid rgba(255,255,255,0.5);
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
   overflow:hidden;
-  margin-top:10px;
 }
 
-/* Hidden Love Message */
+/* Hidden message */
 #note{
   position:absolute;
   inset:0;
@@ -60,37 +45,25 @@ body{
   font-size:22px;
   font-weight:bold;
   text-align:center;
-  padding:15px;
   opacity:0;
-  transform:scale(0.8);
   transition:0.5s;
   z-index:1;
 }
 
-#note span{
-  font-size:35px;
-  animation:pulse 1s infinite alternate;
-}
-
-@keyframes pulse{
-  from{transform:scale(1);}
-  to{transform:scale(1.15);}
-}
-
 /* Canvas */
-canvas{
+#scratch{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
   z-index:2;
-  touch-action:none; /* IMPORTANT for mobile */
+  touch-action:none;
 }
 
 /* Counter */
 #counter{
-  font-size:16px;
   margin-bottom:5px;
+  font-size:16px;
 }
 </style>
 </head>
@@ -106,7 +79,6 @@ canvas{
 </div>
 
 <script>
-/* LOVE MESSAGES */
 const notes = [
 "Please don’t forget my birthday 😘",
 "You are my sunshine and my happiness ☀️",
@@ -120,7 +92,7 @@ const canvas = document.getElementById("scratch");
 const ctx = canvas.getContext("2d");
 const counter = document.getElementById("counter");
 
-/* Resize canvas for mobile */
+/* FIX CANVAS SIZE */
 function resizeCanvas(){
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
@@ -128,79 +100,73 @@ function resizeCanvas(){
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-/* Load Scratch Card */
+/* Load card */
 function loadCard(){
-  noteDiv.innerHTML = `<span>💜</span><br>${notes[index]}<br><span>💜</span>`;
+  noteDiv.innerHTML = "💜<br>" + notes[index] + "<br>💜";
   noteDiv.style.opacity = 0;
-  noteDiv.style.transform = "scale(0.8)";
 
-  ctx.globalCompositeOperation = "source-over";
-  ctx.fillStyle = "#9b00ff";
+  ctx.globalCompositeOperation="source-over";
+  ctx.fillStyle="#9b00ff";
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
-  ctx.font = "120px serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText("💜", canvas.width/2, canvas.height/2);
+  ctx.font="120px serif";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  ctx.fillText("💜",canvas.width/2,canvas.height/2);
 
-  ctx.globalCompositeOperation = "destination-out";
+  ctx.globalCompositeOperation="destination-out";
 
-  counter.innerText = (index+1)+" / "+notes.length;
+  counter.innerText=(index+1)+" / "+notes.length;
 }
 loadCard();
 
-/* Scratch Function (Mobile Smooth) */
+/* Scratch logic */
 let drawing=false;
 
 function getPos(e){
-  const rect = canvas.getBoundingClientRect();
+  const rect=canvas.getBoundingClientRect();
   if(e.touches){
     return {
-      x:e.touches[0].clientX - rect.left,
-      y:e.touches[0].clientY - rect.top
+      x:e.touches[0].clientX-rect.left,
+      y:e.touches[0].clientY-rect.top
     };
   }
-  return {
-    x:e.clientX - rect.left,
-    y:e.clientY - rect.top
-  };
+  return {x:e.clientX-rect.left,y:e.clientY-rect.top};
 }
 
 function scratch(e){
   if(!drawing) return;
   e.preventDefault();
-  const pos=getPos(e);
+  const p=getPos(e);
 
   ctx.beginPath();
-  ctx.arc(pos.x,pos.y,50,0,Math.PI*2); /* BIGGER brush for mobile */
+  ctx.arc(p.x,p.y,45,0,Math.PI*2);
   ctx.fill();
 }
 
-/* Mouse */
+/* Events */
 canvas.addEventListener("mousedown",()=>drawing=true);
 canvas.addEventListener("mouseup",()=>{drawing=false;check();});
 canvas.addEventListener("mousemove",scratch);
 
-/* Touch Mobile */
 canvas.addEventListener("touchstart",()=>drawing=true);
 canvas.addEventListener("touchend",()=>{drawing=false;check();});
 canvas.addEventListener("touchmove",scratch);
 
-/* Check Scratch */
+/* Check scratched area */
 function check(){
-  const pixels = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;
   let cleared=0;
   for(let i=3;i<pixels.length;i+=4){
     if(pixels[i]===0) cleared++;
   }
 
-  if(cleared > pixels.length/5){  /* Easier reveal on mobile */
+  if(cleared > pixels.length/5){
     noteDiv.style.opacity=1;
-    noteDiv.style.transform="scale(1)";
 
     setTimeout(()=>{
       index++;
-      if(index >= notes.length){
+      if(index>=notes.length){
         window.location.href="final.html";
       }else{
         loadCard();
@@ -208,20 +174,6 @@ function check(){
     },2000);
   }
 }
-
-/* Floating Hearts */
-function floatItem(){
-  const hearts=["💜","💖","💗","💕"];
-  const el=document.createElement("div");
-  el.className="float";
-  el.innerHTML=hearts[Math.floor(Math.random()*hearts.length)];
-  el.style.left=Math.random()*100+"vw";
-  el.style.fontSize=(18+Math.random()*35)+"px";
-  el.style.animationDuration=(8+Math.random()*6)+"s";
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(),15000);
-}
-setInterval(floatItem,500);
 </script>
 
 </body>
