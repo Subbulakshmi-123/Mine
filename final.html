@@ -16,38 +16,39 @@ body{
   text-align:center;
   color:white;
   overflow:hidden;
+  padding:10px;
 }
 
 h1{
-  font-size:50px;
-  margin-bottom:10px;
-  text-shadow:0 0 15px #ff4fd8;
+  font-size:60px; /* BIGGER */
+  margin-bottom:15px;
+  text-shadow:0 0 20px #ff4fd8;
 }
 
 p{
-  font-size:24px;
+  font-size:28px; /* BIGGER */
   max-width:520px;
-  text-shadow:0 0 8px rgba(0,0,0,0.4);
+  text-shadow:0 0 10px rgba(0,0,0,0.4);
 }
 
-/* call button */
+/* CALL BUTTON */
 .callBtn{
-  margin-top:35px;
-  padding:16px 40px;
-  font-size:20px;
+  margin-top:40px;
+  padding:20px 55px; /* BIGGER BUTTON */
+  font-size:24px; /* BIGGER TEXT */
   border:none;
-  border-radius:35px;
+  border-radius:50px;
   background:white;
   color:#7f00ff;
   cursor:pointer;
   text-decoration:none;
   font-weight:bold;
-  box-shadow:0 8px 25px #ff4fd8;
+  box-shadow:0 10px 30px #ff4fd8;
   transition:0.3s;
 }
 
 .callBtn:hover{
-  transform:scale(1.1);
+  transform:scale(1.15);
   background:#ff4fd8;
   color:white;
 }
@@ -67,6 +68,25 @@ p{
     opacity:0;
   }
 }
+
+/* Mobile Responsive Design */
+@media (max-width: 600px) {
+
+  h1{
+    font-size: 36px; /* Bigger for mobile */
+  }
+
+  p{
+    font-size: 20px;
+    padding: 0 15px;
+  }
+
+  .callBtn{
+    font-size: 22px;
+    padding: 18px 45px;
+  }
+}
+
 </style>
 </head>
 
@@ -82,7 +102,7 @@ Call me and say “I love you” 💕
 
 <!-- 📞 CALL BUTTON -->
 <a href="tel:+916381349329" class="callBtn">
-   Click Me 💜
+   Call Me 💜
 </a>
 
 <script>
@@ -93,7 +113,7 @@ function floatHeart(){
   el.className="float";
   el.innerHTML=hearts[Math.floor(Math.random()*hearts.length)];
   el.style.left=Math.random()*100+"vw";
-  el.style.fontSize=(20+Math.random()*40)+"px";
+  el.style.fontSize=(25+Math.random()*50)+"px"; /* bigger hearts */
   el.style.animationDuration=(6+Math.random()*6)+"s";
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),12000);
