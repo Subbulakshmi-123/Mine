@@ -77,14 +77,13 @@ body{
   min-height:100vh;
   overflow-y:auto;
   color:white;
-  position:relative;
-  padding-bottom:100px;
+  padding-bottom:80px;
 }
 
 /* heading */
 .title{
   text-align:center;
-  padding:20px;
+  padding:15px;
   font-size:28px;
   text-shadow:0 0 15px #ff9ff3;
 }
@@ -98,7 +97,7 @@ body{
   min-height:1700px;
 }
 
-/* photo style */
+/* photo style desktop */
 .photo{
   position:absolute;
   border-radius:18px;
@@ -129,16 +128,15 @@ body{
 /* NEXT BUTTON */
 .nextBtn{
   display:block;
-  margin:30px auto;
-  padding:15px 40px;
-  font-size:20px;
+  margin:20px auto;
+  padding:14px 40px;
+  font-size:18px;
   border:none;
   border-radius:30px;
   background: linear-gradient(45deg,#ff4fd8,#7f00ff);
   color:white;
   cursor:pointer;
   box-shadow:0 6px 20px #ff4fd8;
-  position:relative;
   z-index:5;
 }
 
@@ -148,6 +146,8 @@ body{
 }
 
 /* ================= MOBILE RESPONSIVE ================= */
+
+/* Tablet & Mobile */
 @media (max-width: 768px){
 
   #basket{ font-size:110px; }
@@ -156,7 +156,7 @@ body{
     min-height:auto;
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:15px;
+    gap:12px;
     padding:10px;
   }
 
@@ -165,14 +165,16 @@ body{
     width:100% !important;
     height:auto !important;
     transform:none !important;
+    padding:4px;
   }
 
   .photo img{
     width:100%;
-    height:250px;
+    height:220px;
   }
 }
 
+/* Small Mobile */
 @media (max-width: 480px){
 
   .collage{
@@ -180,7 +182,16 @@ body{
   }
 
   .photo img{
-    height:320px;
+    height:300px;
+  }
+
+  .title{
+    font-size:22px;
+  }
+
+  .nextBtn{
+    font-size:16px;
+    padding:12px 30px;
   }
 }
 </style>
@@ -235,7 +246,6 @@ body{
   </button>
 </div>
 
-
 <script>
 const basket = document.getElementById("basket");
 const gameArea = document.getElementById("gameArea");
@@ -245,9 +255,14 @@ const galleryPage = document.getElementById("galleryPage");
 
 let score = 0;
 
-/* Basket move */
+/* Basket move (Desktop + Mobile) */
 document.addEventListener("mousemove",(e)=>{
   basket.style.left = e.clientX - basket.offsetWidth/2 + "px";
+});
+
+document.addEventListener("touchmove",(e)=>{
+  let x = e.touches[0].clientX;
+  basket.style.left = x - basket.offsetWidth/2 + "px";
 });
 
 /* Falling hearts */
