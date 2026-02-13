@@ -12,7 +12,7 @@ body{
   justify-content:center;
   align-items:center;
   font-family:"Comic Sans MS", cursive;
-  background:linear-gradient(135deg,#ff4d6d,#ff9a9e);
+  background:linear-gradient(135deg,#7f00ff,#e100ff,#ff4fd8);
   text-align:center;
   color:white;
   overflow:hidden;
@@ -21,11 +21,13 @@ body{
 h1{
   font-size:50px;
   margin-bottom:10px;
+  text-shadow:0 0 15px #ff4fd8;
 }
 
 p{
   font-size:24px;
   max-width:520px;
+  text-shadow:0 0 8px rgba(0,0,0,0.4);
 }
 
 /* call button */
@@ -36,16 +38,18 @@ p{
   border:none;
   border-radius:35px;
   background:white;
-  color:#ff4d6d;
+  color:#7f00ff;
   cursor:pointer;
   text-decoration:none;
   font-weight:bold;
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  box-shadow:0 8px 25px #ff4fd8;
   transition:0.3s;
 }
 
 .callBtn:hover{
   transform:scale(1.1);
+  background:#ff4fd8;
+  color:white;
 }
 
 /* floating hearts */
@@ -54,6 +58,7 @@ p{
   bottom:-50px;
   animation:rise linear forwards;
   z-index:-1;
+  opacity:0.8;
 }
 
 @keyframes rise{
@@ -67,7 +72,7 @@ p{
 
 <body>
 
-<h1>I Love You ❤️</h1>
+<h1>I Love You 💜</h1>
 
 <p>
 You completed every level…  
@@ -76,18 +81,17 @@ Call me and say “I love you” 💕
 </p>
 
 <!-- 📞 CALL BUTTON -->
-
 <a href="tel:+916381349329" class="callBtn">
-   Click Me ❤️
+   Click Me 💜
 </a>
-
 
 <script>
 /* floating hearts animation */
 function floatHeart(){
+  const hearts=["💜","💖","💕","💗"];
   const el=document.createElement("div");
   el.className="float";
-  el.innerHTML="❤️";
+  el.innerHTML=hearts[Math.floor(Math.random()*hearts.length)];
   el.style.left=Math.random()*100+"vw";
   el.style.fontSize=(20+Math.random()*40)+"px";
   el.style.animationDuration=(6+Math.random()*6)+"s";
